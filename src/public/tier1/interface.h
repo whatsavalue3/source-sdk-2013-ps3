@@ -35,9 +35,10 @@
 #ifdef _WIN32
 #pragma once
 #endif
-
 #ifdef _LINUX
+#ifndef PS3
 #include <dlfcn.h> // dlopen,dlclose, et al
+#endif
 #include <unistd.h>
 
 #define GetProcAddress dlsym

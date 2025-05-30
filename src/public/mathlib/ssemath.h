@@ -8,6 +8,8 @@
 
 #if defined( _X360 )
 #include <xboxmath.h>
+#elif defined(PS3)
+
 #else
 #include <xmmintrin.h>
 #endif
@@ -15,7 +17,9 @@
 #include <mathlib/vector.h>
 #include <mathlib/mathlib.h>
 
-#if defined(GNUC)
+#if defined(PS3)
+#define USE_STDC_FOR_SIMD 1
+#elif defined(GNUC)
 #define USE_STDC_FOR_SIMD 0
 #else
 #define USE_STDC_FOR_SIMD 0

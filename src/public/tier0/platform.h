@@ -80,6 +80,9 @@
 // Detect the architecture we are running on
 #if defined(__arm__) || defined( __aarch64__ ) || defined(_M_ARM) || defined(_M_ARM64)
 	#define PLATFORM_ARM 1
+#elif defined(PS3)
+  #define PLATFORM_PPC 1
+  #define PLATFORM_PS3 1
 #elif  defined(_M_X64) || defined(__x86_64__)
   #define PLATFORM_INTEL
   #define PLATFORM_X86 64
@@ -1255,6 +1258,8 @@ inline uint64 Plat_Rdtsc()
 	uint32 lo, hi;
 	__asm__ __volatile__ ( "rdtsc" : "=a" (lo), "=d" (hi));
 	return ( ( ( uint64 )hi ) << 32 ) | lo;
+#elif defined(PS3)
+	return 0;
 #else
 	#error
 #endif

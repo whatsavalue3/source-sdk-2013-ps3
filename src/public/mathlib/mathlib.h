@@ -16,10 +16,10 @@
 #include "tier0/dbg.h"
 
 #include "mathlib/math_pfns.h"
-
+#ifndef PS3
 // For MMX intrinsics
 #include <xmmintrin.h>
-
+#endif
 // XXX remove me
 #undef clamp
 

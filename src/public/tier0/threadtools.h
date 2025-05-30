@@ -50,6 +50,11 @@
 typedef void *HANDLE;
 #endif
 
+
+#ifdef PS3 
+#define NO_THREAD_LOCAL
+#include <sys/thread.h>
+#endif
 // Start thread running  - error if already running
 enum ThreadPriorityEnum_t
 {
@@ -57,8 +62,10 @@ enum ThreadPriorityEnum_t
 	TP_PRIORITY_NORMAL  = 1001,
 	TP_PRIORITY_HIGH = 100,
 	TP_PRIORITY_LOW = 2001,
-	TP_PRIORITY_DEFAULT = 1001
-#error "Need PRIORITY_LOWEST/HIGHEST"
+	TP_PRIORITY_DEFAULT = 1001,
+	TP_PRIORITY_HIGHEST = TP_PRIORITY_HIGH,
+	TP_PRIORITY_LOWEST = TP_PRIORITY_LOW,
+//#error "Need PRIORITY_LOWEST/HIGHEST"
 #elif defined( PLATFORM_LINUX )
     // We can use nice on Linux threads to change scheduling.
     // pthreads on Linux only allows priority setting on
@@ -145,7 +152,7 @@ extern "C" unsigned long __declspec(dllimport) __stdcall GetCurrentThreadId();
 inline void ThreadPause()
 {
 #if defined( COMPILER_PS3 )
-	__db16cyc();
+	__asm__ volatile ("or 31,31,31" : : : "memory");
 #elif defined( COMPILER_GCC )
 	#if defined( PLATFORM_INTEL )
 		__asm __volatile( "pause" );
@@ -1016,6 +1023,8 @@ private:
 #endif // !_XBOX
 #endif // _WIN64
 	byte m_CriticalSection[TT_SIZEOF_CRITICALSECTION];
+#elif defined(PS3)
+	sys_mutex_t m_Mutex;
 #elif defined(POSIX)
 	pthread_mutex_t m_Mutex;
 	pthread_mutexattr_t m_Attr;
@@ -1348,6 +1357,8 @@ protected:
 #ifdef _WIN32
 	HANDLE m_hSyncObject;
 	bool m_bCreatedHandle;
+#elif defined(PS3)
+	sys_mutex_t	m_Mutex;
 #elif defined(POSIX)
 	pthread_mutex_t	m_Mutex;
 	pthread_cond_t	m_Condition;

@@ -13,6 +13,10 @@
 #include "mathlib/vector.h"
 #include "sse.h"
 
+#ifdef PS3
+#undef POSIX
+#endif
+
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
