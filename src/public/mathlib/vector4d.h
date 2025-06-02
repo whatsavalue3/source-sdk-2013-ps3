@@ -16,7 +16,7 @@
 #include <math.h>
 #include <stdlib.h>		// For rand(). We really need a library!
 #include <float.h>
-#if !defined( _X360 )
+#if !defined( _X360 ) && !defined(PS3)
 #include <xmmintrin.h>	// For SSE
 #endif
 #include "basetypes.h"	// For vec_t, put this somewhere else?

@@ -3160,7 +3160,16 @@ FORCEINLINE fltx4 BiasSIMD( const fltx4 &val, const fltx4 &precalc_param )
 
 FORCEINLINE fltx4 LoadUnalignedFloatSIMD( const float *pFlt )
 {
+#ifdef PS3
+	fltx4 fl4;
+	fl4.m128_f32[0] = pFlt[0];
+	fl4.m128_f32[1] = pFlt[1];
+	fl4.m128_f32[2] = pFlt[2];
+	fl4.m128_f32[3] = pFlt[3];
+	return fl4;
+#else
 	return _mm_load_ss(pFlt);
+#endif
 }
 
 inline const fltx4 Length3SIMD( const fltx4 vec )

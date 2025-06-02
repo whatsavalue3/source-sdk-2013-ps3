@@ -1734,6 +1734,8 @@ private:
 #ifdef _WIN32
 	HANDLE 	m_hThread;
 	ThreadId_t m_threadId;
+#elif defined(PS3)
+	sys_ppu_thread_t m_threadId;
 #elif defined(POSIX)
 	pthread_t m_threadId;
 #endif
@@ -2013,7 +2015,7 @@ inline void CThreadMutex::SetTrace( bool bTrace )
 
 //---------------------------------------------------------
 
-#elif defined(POSIX)
+#elif defined(POSIX) && !defined(PS3)
 
 inline CThreadMutex::CThreadMutex()
 {

@@ -69,6 +69,15 @@
 #include <stdarg.h>
 #endif
 
+#if defined(PS3)
+#include <cstdio>
+using ::__gnu_cxx::snprintf;
+using ::__gnu_cxx::vfscanf;
+using ::__gnu_cxx::vscanf;
+using ::__gnu_cxx::vsnprintf;
+using ::__gnu_cxx::vsscanf;
+#endif
+
 #include <malloc.h>
 #include <new>
 

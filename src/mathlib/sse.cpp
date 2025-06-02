@@ -825,7 +825,7 @@ void _SSE2_SinCos(float x, float* s, float* c)  // any x
 		movss	[eax], xmm0
 		movss	[edx], xmm6
 	}
-#elif POSIX
+#elif defined(POSIX) || defined(PS3)
 	#warning "_SSE2_SinCos NOT implemented!"
 	Assert( 0 );
 #else
@@ -883,7 +883,7 @@ float _SSE2_cos(float x)
 		mulss	xmm0, xmm1
 		movss   x,    xmm0
 	}
-#elif POSIX
+#elif defined(POSIX) || defined(PS3)
 	#warning "_SSE2_cos NOT implemented!"
 	Assert( 0 );
 #else
@@ -901,7 +901,7 @@ void VectorTransformSSE(const float *in1, const matrix3x4_t& in2, float *out1)
 	Assert( s_bMathlibInitialized );
 	Assert( in1 != out1 );
 
-#ifdef _WIN32
+#if defined(_WIN32)
 	__asm
 	{
 		mov eax, in1;
@@ -943,7 +943,7 @@ void VectorTransformSSE(const float *in1, const matrix3x4_t& in2, float *out1)
 		addss xmm0, [ecx+12]
 		movss [edx+8], xmm0;
 	}
-#elif POSIX
+#elif defined(POSIX) || defined(PS3)
 	#warning "VectorTransformSSE C implementation only"
 		out1[0] = DotProduct(in1, in2[0]) + in2[0][3];
 		out1[1] = DotProduct(in1, in2[1]) + in2[1][3];
@@ -960,7 +960,7 @@ void VectorRotateSSE( const float *in1, const matrix3x4_t& in2, float *out1 )
 	Assert( s_bMathlibInitialized );
 	Assert( in1 != out1 );
 
-#ifdef _WIN32
+#if defined(_WIN32)
 	__asm
 	{
 		mov eax, in1;
@@ -999,7 +999,7 @@ void VectorRotateSSE( const float *in1, const matrix3x4_t& in2, float *out1 )
 		addss xmm0, xmm2;
 		movss [edx+8], xmm0;
 	}
-#elif POSIX
+#elif defined(POSIX) || defined(PS3)
 	#warning "VectorRotateSSE C implementation only"
 		out1[0] = DotProduct( in1, in2[0] );
 		out1[1] = DotProduct( in1, in2[1] );

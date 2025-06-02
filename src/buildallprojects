@@ -24,7 +24,7 @@ fi
 solution_out="_vpc_/ninja/sdk_everything_$VPC_NINJA_BUILD_MODE"
 
 if [[ ! -e "$solution_out.ninja" ]]; then
-    devtools/bin/vpc /hl2mp /tf /linux64 /ninja /define:SOURCESDK +everything /mksln "$solution_out"
+    devtools/bin/vpc /hl2mp /tf /linux64 /ninja /define:PS3 /define:SOURCESDK +everything /mksln "$solution_out"
 
 	sed -i 's/x86_64-linux-gnu-gcc/ppu-gcc/g' "$solution_out.ninja"
     sed -i 's/x86_64-linux-gnu-g++/ppu-g++/g' "$solution_out.ninja"
@@ -32,7 +32,7 @@ if [[ ! -e "$solution_out.ninja" ]]; then
 	escapedPSL1GHT=${PSL1GHT//\//\\/}
 	kms="s/-march=nocona -march=core2/-I$escapedPSL1GHT\/ppu\/include -I$escapedPSL1GHT\/ppu\/include\/sys/g"
     sed -i "$kms" "$solution_out.ninja"
-    sed -i 's/-D_DLL_EXT=.so -D_LINUX -DLINUX/-D_DLL_EXT=.sprx -DPS3 -DCOMPILER_PS3/g' "$solution_out.ninja"
+    sed -i 's/-D_DLL_EXT=.so -D_LINUX -DLINUX/-D_DLL_EXT=.sprx -DPS3 -DCOMPILER_PS3 -D_GLIBCXX_USE_C99_STDIO -D_GLIBCXX_USE_C99_DYNAMIC/g' "$solution_out.ninja"
     # Generate compile commands.
     ninja -f "$solution_out.ninja" -t compdb > compile_commands.json
     # Remove some unsupported clang commands.

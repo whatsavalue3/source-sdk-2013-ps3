@@ -1187,6 +1187,8 @@ FORCEINLINE int RoundFloatToInt(float f)
 	};
 	flResult = __fctiw( f );
 	return pResult[1];
+#elif defined(PS3)
+	return static_cast<int>(f);
 #else
 #error Unknown architecture
 #endif
